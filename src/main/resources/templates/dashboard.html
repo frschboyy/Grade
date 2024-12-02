@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Dashboard - Assignment Grading System</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/dashboard.css}">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-content">
+                <div class="subheader">
+                    <h4 class="welcome">Welcome <span th:text="${username}"></span></h4>
+                    <button class="btn-primary logout-button" onclick="logout()">Logout</button>
+                </div>
+                <h1>Student Dashboard</h1>
+            </div>
+        </header>
+
+        <div class="container">
+
+            <!-- Upcoming Assignments -->
+            <div class="card">
+                <h2 class="card-title">Upcoming Assignments</h2>
+                <ul class="assignment-list">
+                    <!-- Dynamic content will be injected here -->
+                </ul>
+            </div>
+
+            <!-- Submitted Assignments -->
+            <div class="card">
+                <h2 class="card-title">Submitted Assignments</h2>
+                <ul class="submission-list">
+                    <!-- Dynamic content will be injected here -->
+                </ul>
+            </div>
+
+        </div>
+        
+        <script type="text/javascript" th:src="@{/js/logout.js}"></script>
+        <script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
+    </body>
+</html>

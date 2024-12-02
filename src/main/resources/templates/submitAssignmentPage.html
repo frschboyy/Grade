@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Submit Assignment - Student Portal</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/submitAssignment.css}">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-content">
+                <h1>Submit Assignment</h1>
+                <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Main Submission Form -->
+            <div class="main-content">
+                <!-- Assignment Details -->
+                <div class="card">
+                    <h2 class="card-title">Assignment Details</h2>
+                    <div class="form-group">
+                        <div class="form-label">Assignment Title</div>
+                        <div id="assignmentName" th:text="${title}"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Description</div>
+                        <div id="assignmentDescription" th:text="${description}"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Due Date</div>
+                        <div id="dueDate" th:text="${dueDate}"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Status</div>
+                        <div>Open for Submission</div>
+                    </div>
+                </div>
+
+                <!-- File Upload -->
+                <div class="card">
+                    <h2 class="card-title">Upload Files</h2>
+                    <div class="upload-zone" onclick="triggerFileInput()">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag and drop your files here</p>
+                        <p>or</p>
+                        <button class="btn btn-primary">Browse Files</button>
+                        <input type="file" id="fileInput" hidden multiple accept=".pdf,.doc,.docx" onchange="handleFileUpload(event)">
+                    </div>
+
+                    <div class="file-list" id="fileList"></div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary" id="submit_btn" onclick="submitFiles()">Submit Assignment</button>
+                    <div id="loader"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Submission Guidelines -->
+                <div class="card">
+                    <h2 class="card-title">Submission Guidelines</h2>
+                    <ul class="guidelines-list">
+                        <li>File format: PDF, DOC, or DOCX only</li>
+                        <li>Maximum file size: 10MB</li>
+                        <li>Include your student ID in the filename</li>
+                        <li>One submission allowed per assignment</li>
+                        <li>Late submissions may incur penalties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" th:src="@{/js/submission.js}"></script>
+    </body>
+</html>

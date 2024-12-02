@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up - GradeAi</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/signup.css}">
+    </head>
+    <body>
+        <div class="signup-container">
+            <div class="logo-section">
+                <div class="logo">GA</div>
+                <h1>GradeAi</h1>
+            </div>
+            <div class="card">
+                <h2 class="card-title">Create an Account</h2>
+                <p class="card-subtitle">Enter your details to get started</p>
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    Please correct the errors in the form before proceeding.
+                </div>
+                <form action="/signup" method="POST">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-input" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="Create a password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+            </div>
+            <div class="signup-footer">
+                Already have an account? <a href="/">Sign in</a>
+            </div>
+        </div>
+        
+        <script type="text/javascript" th:src="@{/js/validation.js}"></script>
+    </body>
+</html>

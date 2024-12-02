@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.6;
+}
+.report-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.section {
+    margin-bottom: 20px;
+}
+.section-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+.grade-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.grade-breakdown th, .grade-breakdown td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.grade-breakdown th {
+    background-color: #f4f4f4;
+}
+.plagiarism-score {
+    font-weight: bold;
+    color: #d9534f;
+}
+.good-score {
+    color: #5cb85c;
+}
+
+#breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#breakdown-table th, #breakdown-table td {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    text-align: center;
+}

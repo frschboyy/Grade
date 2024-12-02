@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Grade Report</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/results.css}">
+    </head>
+    <body>
+        <div class="report-container">
+            <h1>Assignment Results</h1>
+            <div class="section">
+                <div class="section-title">Evaluation Results</div>
+                <!-- Dynamically populate the grade from the session -->
+                <p id="grade">Grade: <span th:text="${grade}">Loading...</span></p>
+            </div>
+            <div class="section">
+                <div class="section-title">Plagiarism Check Report</div>
+                <p>Similarity Score: <span id="similarity-score" class="plagiarism-score" th:text="${plagiarism}">Loading...</span></p>
+            </div>
+            <div class="section grade-breakdown">
+                <div class="section-title">Grade Breakdown</div>
+                <table id="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Score</th>
+                            <th>Maximum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

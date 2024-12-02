@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Give Assignment - Admin Portal</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/addAssignment.css}">
+    </head>
+    <body>
+        <header class="header">
+            <h1>Add Assignment</h1>
+            <!-- Log Out Button -->
+            <button class="logout-btn" onclick="logout()">Log Out</button>
+        </header>
+
+        <div class="container">
+            <!-- Main Submission Form -->
+            <div class="main-content">
+                <!-- Assignment Details Form -->
+                <div class="card">
+                    <h2 class="card-title">Assignment Details</h2>
+                    <form id="assignmentForm" action="/api/assignments" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="assignmentName" class="form-label">Assignment Name</label>
+                            <input type="text" id="assignmentName" name="assignmentName" class="form-control" placeholder="Enter assignment name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dueDate" class="form-label">Due Date</label>
+                            <input type="datetime-local" id="dueDate" name="dueDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" name="description" class="form-control" rows="4" placeholder="Enter assignment description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="uploadFile" class="form-label">Upload Rubric (Optional):</label>
+                            <input type="file" id="uploadFile" name="uploadFile" class="form-control" accept=".pdf,.doc,.docx">
+                            <small class="form-text text-muted">Allowed formats: PDF, DOC, DOCX</small>
+                        </div>
+                        <button type="submit" id="submit_btn" class="btn btn-primary">Submit</button>
+                        <div id="loader"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" th:src="@{/js/logout.js}"></script>
+        <script type="text/javascript" th:src="@{/js/addAssignment.js}"></script>
+    </body>
+</html>
