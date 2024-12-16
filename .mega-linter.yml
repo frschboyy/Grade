@@ -12,7 +12,31 @@ APPLY_FIXES: all
 
 # If you use ENABLE_LINTERS variable, all other linters will be disabled by
 # default
-# ENABLE_LINTERS:
+NABLE_LINTERS: |
+  # Java linters
+  JAVA_CHECKSTYLE
+  JAVA_PMD
+  JAVA_SPOTBUGS
+  
+  # Gradle linter
+  GROOVY_GRADLE_LINT
+  
+  # HTML linter
+  HTML_HTMLHINT
+  
+  # CSS linter
+  CSS_STYLELINT
+  
+  # JavaScript linter
+  JAVASCRIPT_ESLINT
+  
+  # General linters
+  SPELL_CSPELL
+  MISC_EDITORCONFIG
+  MISC_PRETTIER
+  
+  # Duplicate code detector
+  COPYPASTE_JSCPD
 
 # DISABLE:
   # - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
