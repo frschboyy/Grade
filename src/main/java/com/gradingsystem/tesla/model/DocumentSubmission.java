@@ -1,6 +1,8 @@
 package com.gradingsystem.tesla.model;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.Table;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,4 +51,10 @@ public class DocumentSubmission {
     
     @Column(nullable=true)
     private Integer similarityScore;
+    
+    @ElementCollection
+    @CollectionTable(name = "evaluation_results", joinColumns = @JoinColumn(name = "submission_id"))
+    @MapKeyColumn(name = "question")
+    @Column(name = "score")
+    private Map<String, String> evaluationResults;
 }

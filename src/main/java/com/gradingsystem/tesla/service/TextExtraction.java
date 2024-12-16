@@ -1,22 +1,46 @@
 package com.gradingsystem.tesla.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TextExtraction {
 
-    private final CohereGradingService gradingService;
-
-    @Autowired
-    public TextExtraction(CohereGradingService gradingService) {
-        this.gradingService = gradingService;
+    // Extract text from a PDF file
+    public String extractTextFromPDF(InputStream inputStream) throws Exception {
+        try (PDDocument document = PDDocument.load(inputStream)) {
+            PDFTextStripper textStripper = new PDFTextStripper();
+            String text = textStripper.getText(document);
+            String normalizedText = text.toLowerCase().replaceAll("\\s+", " ").trim();
+            return normalizedText;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to extract text from PDF document");
+        }
     }
 
+    // Extract text from a Word document
+    public String extractTextFromWord(InputStream inputStream) throws Exception {
+        try (XWPFDocument document = new XWPFDocument(inputStream)) {
+            StringBuilder text = new StringBuilder();
+            for (XWPFParagraph paragraph : document.getParagraphs()) {
+                text.append(paragraph.getText()).append("\n");
+            }
+            // Normalize text: Convert text to lowercase and remove extra spaces
+            String normalizedText = text.toString().toLowerCase().replaceAll("\\s+", " ").trim();
+            return normalizedText;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to extract text from Word document");
+        }
+    }
     // Extract text from pdf or word file
     public String extractText(MultipartFile file) throws Exception {
         // Check if file exists
@@ -27,9 +51,9 @@ public class TextExtraction {
         String extractedText;
         
         if (file.getOriginalFilename().endsWith(".pdf")) {
-            extractedText = gradingService.extractTextFromPDF(file.getInputStream());
+            extractedText = extractTextFromPDF(file.getInputStream());
         } else if (file.getOriginalFilename().endsWith(".docx")) {
-            extractedText = gradingService.extractTextFromWord(file.getInputStream());
+            extractedText = extractTextFromWord(file.getInputStream());
         } else {
             throw new IllegalArgumentException("Unsupported file type");
         }

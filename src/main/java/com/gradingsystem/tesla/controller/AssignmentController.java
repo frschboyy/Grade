@@ -4,6 +4,7 @@ import com.gradingsystem.tesla.DTO.AssignmentDTO;
 import com.gradingsystem.tesla.DTO.EvaluationDetails;
 import com.gradingsystem.tesla.model.Assignment;
 import com.gradingsystem.tesla.service.AssignmentService;
+import com.gradingsystem.tesla.service.CohereGradingService;
 import com.gradingsystem.tesla.service.RetrieveEvaluationService;
 import com.gradingsystem.tesla.service.TextExtraction;
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/assignments")
@@ -25,6 +28,8 @@ public class AssignmentController {
     private final TextExtraction textExtraction;
     private final AssignmentService assignmentService;
     private final RetrieveEvaluationService retrievalService;
+    
+    private static final Logger logger = LoggerFactory.getLogger(AssignmentController.class);
 
     @Autowired
     public AssignmentController(
@@ -124,6 +129,9 @@ public class AssignmentController {
         // Save data
         session.setAttribute("grade", details.getGrade());
         session.setAttribute("plagiarism", details.getPlagiarismScore());
+        session.setAttribute("results", details.getResults());
+        logger.debug("Added to session");
+        logger.debug("Evaluation Details 123:" + details.getResults());
         System.out.println("Added to session");
         return "redirect:/evaluation-page";
     }

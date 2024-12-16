@@ -7,10 +7,12 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.util.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.lucene.analysis.CharArraySet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,12 @@ public class PlagiarismService {
 
         // Create a Lucene in-memory directory to store the indexed data
         Directory directory = new ByteBuffersDirectory();
-        StandardAnalyzer analyzer = new StandardAnalyzer(); // for tokenizing text
+        
+        // for tokenizing text
+        StandardAnalyzer analyzer = new StandardAnalyzer(CharArraySet.unmodifiableSet(
+                new CharArraySet(Arrays.asList("question", "answer"), true)
+        ));
+        
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
         // Index the two documents

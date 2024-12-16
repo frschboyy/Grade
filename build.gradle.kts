@@ -26,7 +26,10 @@ dependencies {
         implementation ("com.google.cloud:google-cloud-document-ai:2.57.0")   // Google Document AI
         implementation ("org.apache.pdfbox:pdfbox:2.0.29")                   // PDF Processing
         implementation ("org.apache.poi:poi-ooxml:5.2.3")                    // Word Document Processing
-        
+
+        // Cohere API 
+        implementation ("com.cohere:cohere-java:+")
+
         // Plagiarism
         implementation ("org.apache.lucene:lucene-core:8.11.2")
         implementation ("org.apache.lucene:lucene-analyzers-common:8.11.2")

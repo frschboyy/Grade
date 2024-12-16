@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ public class SubmissionController {
 
     private final DocumentSubmissionRepository documentSubmissionRepository;
     private final AssignmentRepository assignmentRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(SubmissionController.class);
 
     @Autowired
     public SubmissionController(
@@ -53,7 +57,7 @@ public class SubmissionController {
 
         Long assignmentId = (Long) session.getAttribute("assignmentId");
         Student student = (Student) session.getAttribute("loggedInStudent");
-        
+
         try {
             // Extract and hash text
             String newSubmission = textExtraction.extractText(file);
@@ -61,7 +65,7 @@ public class SubmissionController {
 
             // Check for duplicate submissions
             DocumentSubmission duplicateSubmission = documentSubmissionRepository
-                    .findByAssignmentIdAndHashValue(assignmentId, newSubmissionHash);
+                    .findByAssignmentIdAndStudentIdAndHashValue(assignmentId, student.getId(), newSubmissionHash);
 
             if (duplicateSubmission != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -70,11 +74,11 @@ public class SubmissionController {
 
             // Check for plagiarism
             double plagiarismScore = 0;
-            List<DocumentSubmission> allSubmissions = documentSubmissionRepository.findAll();
+            List<DocumentSubmission> allSubmissions = documentSubmissionRepository.findByAssignmentId(assignmentId);
             for (DocumentSubmission submission : allSubmissions) {
                 // Convert extracted text to string (if it's stored as bytes or other format)
                 String existingSubmission = new String(submission.getExtractedText(), StandardCharsets.UTF_8);
-         
+
                 try {
                     // Calculate TF-IDF similarity using Cosine Similarity
                     double score = plagiarismService.calculateTFIDFSimilarity(newSubmission, existingSubmission);
@@ -86,57 +90,51 @@ public class SubmissionController {
                 }
 
                 // Check if plagiarism score exceeds thresholds
-                if (plagiarismScore >= 0.9) {
+                if (plagiarismScore >= 0.95) {
                     return ResponseEntity.status(HttpStatus.CONFLICT)
                             .body(Map.of("error", "Duplicate submission detected for this assignment."));
                 }
             }
-            
+
             // logging purposes
-            if (plagiarismScore >= 0.7) { // threshold: 30%
+            if (plagiarismScore >= 0.8) { // threshold: 30%
                 System.out.println("Potential plagiarism detected: " + plagiarismScore);
             }
 
-            Integer percentage;
-            if (plagiarismScore < 0.7) {
-                // Parse questions and answers
-                Map<String, String> answerToQuestion = gradingService.parseQuestionsAndAnswers(newSubmission);
+            // Parse questions and answers
+            Map<String, String> answerToQuestion = gradingService.parseQuestionsAndAnswers(newSubmission);
 
-                Map<String, String> evaluationResults;
-
-                Assignment assignment = assignmentRepository.findAssignmentById(assignmentId);
-                byte[] rubric = assignment.getRubric();
-
-                String rubricText;
-                if (rubric != null) {
-                    rubricText = new String(rubric, StandardCharsets.UTF_8);
-                    // Evaluate based on rubric
-                    evaluationResults = gradingService.evaluateAnswersWithRubric(answerToQuestion, rubricText);
-                } else {
-                    // Evaluate without rubric
-                    evaluationResults = gradingService.evaluateAnswersWithoutRubric(answerToQuestion);
-                }
-
-                // Iterate through the map and print each key-value pair
-                for (Map.Entry<String, String> entry : evaluationResults.entrySet()) {
-                    System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-                }
-
-                System.out.print("Entry Size: " + evaluationResults.entrySet().size());
-
-                // Calculate student's mark for assignment
-                Map<String, Integer> scores = gradingService.calculateAggregateScore(evaluationResults);
-                int totalScore = scores.get("totalScore");
-                int totalMaxScore = scores.get("totalMaxScore");
-                double aggregateScore = (double) totalScore / totalMaxScore;
-                percentage = (int) (aggregateScore * 100);
-            } else {
-                percentage = 0;
-            }
-
-            // Retrieve the assignment
             Assignment assignment = assignmentRepository.findById(assignmentId)
                     .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+            byte[] rubric = assignment.getRubric();
+
+            String rubricText;
+            Map<String, String> evaluationResults;
+
+            if (rubric != null) {
+
+                // Evaluate based on rubric
+                rubricText = new String(rubric, StandardCharsets.UTF_8);
+                logger.debug("enteringEvalRubric");
+                evaluationResults = gradingService.evaluateAnswersWithRubric(answerToQuestion, rubricText);
+            } else {
+
+                // Evaluate without rubric
+                logger.debug("enteringEvalNoRubric");
+                evaluationResults = gradingService.evaluateAnswersWithoutRubric(answerToQuestion);
+                logger.debug("results: " + evaluationResults.toString());
+            }
+
+            // Iterate through the map and print each key-value pair
+            for (Map.Entry<String, String> entry : evaluationResults.entrySet()) {
+                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
+
+            System.out.print("Entry Size: " + evaluationResults.entrySet().size());
+
+            // Calculate student's mark for assignment
+            Integer percentage = gradingService.calculateAggregateScore(evaluationResults);
 
             // Save document submission
             DocumentSubmission submission = DocumentSubmission.builder()
@@ -146,6 +144,7 @@ public class SubmissionController {
                     .extractedText(newSubmission.getBytes(StandardCharsets.UTF_8))
                     .grade(percentage)
                     .similarityScore((int) (plagiarismScore * 100))
+                    .evaluationResults(evaluationResults)
                     .build();
 
             System.out.println("Assignment: " + assignment.getId() + ", " + assignment.getTitle() + ", " + assignment.getDescription());
@@ -159,7 +158,7 @@ public class SubmissionController {
 
             documentSubmissionRepository.save(submission);
 
-            if (plagiarismScore < 0.7) {
+            if (plagiarismScore < 0.8) {
                 return ResponseEntity.ok(Map.of("message", "Submission Processed", "score", String.valueOf(percentage)));
             } else {
                 return ResponseEntity.ok(Map.of("message", "Submission Processed: Plagiarism Detected!", "Similarity Score", String.valueOf(numberFormat.format(plagiarismScore * 100))));

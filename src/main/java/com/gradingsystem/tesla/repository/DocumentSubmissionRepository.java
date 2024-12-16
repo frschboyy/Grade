@@ -11,7 +11,7 @@ public interface DocumentSubmissionRepository extends JpaRepository<DocumentSubm
     
     List<DocumentSubmission> findByStudentId(Long studentId);
 
-    public DocumentSubmission findByAssignmentIdAndStudentId(Long assignmentId, Long studentId);
+    DocumentSubmission findByAssignmentIdAndStudentId(Long assignmentId, Long studentId);
 
-    public DocumentSubmission findByAssignmentIdAndHashValue(Long assignmentId, String hashValue);
+    DocumentSubmission findByAssignmentIdAndStudentIdAndHashValue(Long assignmentId, Long studentId, String hashValue);
 }

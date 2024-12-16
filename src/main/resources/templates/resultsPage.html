@@ -25,11 +25,14 @@
                         <tr>
                             <th>Question</th>
                             <th>Score</th>
-                            <th>Maximum</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Populated dynamically -->
+                        <!-- Iterate over the results map -->
+                        <tr th:each="entry : ${results}">
+                            <td th:text="${entry.key}">Question</td>
+                            <td th:text="${entry.value}">Score</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
