@@ -4,13 +4,13 @@ function backToDashboard () {
 }
 // Handle file input trigger
 function triggerFileInput () {
-  document.getElementById('fileInput').click()
+  document.getElementById('file-input').click()
 }
 
 // Handle file upload
 function handleFileUpload (event) {
-  const fileInput = document.getElementById('fileInput')
-  const fileList = document.getElementById('fileList')
+  const fileInput = document.getElementById('file-input')
+  const fileList = document.getElementById('file-list')
   fileList.innerHTML = '' // Clear the existing list
   const allowedExtensions = ['pdf', 'doc', 'docx']
 
@@ -52,10 +52,10 @@ function handleFileUpload (event) {
 
 // Handle file submission
 function submitFiles () {
-  const submitButton = document.getElementById('submit_btn')
+  const submitButton = document.getElementById('submit-btn')
   const loading = document.getElementById('loader')
 
-  const fileInput = document.getElementById('fileInput')
+  const fileInput = document.getElementById('file-input')
   const files = fileInput.files
 
   if (files.length === 0) {

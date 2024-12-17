@@ -178,7 +178,7 @@ body {
     text-decoration: underline;
 }
 
-.error-message {
+#error-message {
     background-color: #fee2e2;
     color: var(--danger-color);
     padding: 0.75rem;

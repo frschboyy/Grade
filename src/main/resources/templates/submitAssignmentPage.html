@@ -22,15 +22,15 @@
                     <h2 class="card-title">Assignment Details</h2>
                     <div class="form-group">
                         <div class="form-label">Assignment Title</div>
-                        <div id="assignmentName" th:text="${title}"></div>
+                        <div id="assignment-name" th:text="${title}"></div>
                     </div>
                     <div class="form-group">
                         <div class="form-label">Description</div>
-                        <div id="assignmentDescription" th:text="${description}"></div>
+                        <div id="assignment-description" th:text="${description}"></div>
                     </div>
                     <div class="form-group">
                         <div class="form-label">Due Date</div>
-                        <div id="dueDate" th:text="${dueDate}"></div>
+                        <div id="due-date" th:text="${dueDate}"></div>
                     </div>
                     <div class="form-group">
                         <div class="form-label">Status</div>
@@ -46,13 +46,13 @@
                         <p>Drag and drop your files here</p>
                         <p>or</p>
                         <button class="btn btn-primary">Browse Files</button>
-                        <input type="file" id="fileInput" hidden multiple accept=".pdf,.doc,.docx" onchange="handleFileUpload(event)">
+                        <input type="file" id="file-input" hidden multiple accept=".pdf,.doc,.docx" onchange="handleFileUpload(event)">
                     </div>
 
-                    <div class="file-list" id="fileList"></div>
+                    <div class="file-list-class" id="file-list"></div>
 
                     <!-- Submit Button -->
-                    <button class="btn btn-primary" id="submit_btn" onclick="submitFiles()">Submit Assignment</button>
+                    <button class="btn btn-primary" id="submit-btn" onclick="submitFiles()">Submit Assignment</button>
                     <div id="loader"></div>
                 </div>
             </div>

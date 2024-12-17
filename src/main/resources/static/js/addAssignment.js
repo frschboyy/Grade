@@ -1,12 +1,12 @@
-document.getElementById('assignmentForm').addEventListener('submit', function (event) {
+document.getElementById('assignment-form').addEventListener('submit', function (event) {
   event.preventDefault() // Prevent the default form submission behavior
 
-  const assignmentName = document.getElementById('assignmentName').value.trim()
-  const dueDate = document.getElementById('dueDate').value.trim()
+  const assignmentName = document.getElementById('assignment-name').value.trim()
+  const dueDate = document.getElementById('due-date').value.trim()
   const description = document.getElementById('description').value.trim()
-  const uploadFile = document.getElementById('uploadFile').files[0]
+  const uploadFile = document.getElementById('upload-file').files[0]
 
-  const submitButton = document.getElementById('submit_btn')
+  const submitButton = document.getElementById('submit-btn')
   const loading = document.getElementById('loader')
 
   // Check if required fields are filled
@@ -21,11 +21,11 @@ document.getElementById('assignmentForm').addEventListener('submit', function (e
 
   // Create FormData to send file and form data together
   const formData = new FormData()
-  formData.append('assignmentName', assignmentName)
-  formData.append('dueDate', dueDate)
+  formData.append('assignment-name', assignmentName)
+  formData.append('due-date', dueDate)
   formData.append('description', description)
   if (uploadFile) {
-    formData.append('uploadFile', uploadFile)
+    formData.append('upload-file', uploadFile)
   }
 
   // Send the data to the backend
@@ -45,7 +45,7 @@ document.getElementById('assignmentForm').addEventListener('submit', function (e
       submitButton.style.display = 'inline'
       alert(successMessage)
       // Clear form after success
-      document.getElementById('assignmentForm').reset()
+      document.getElementById('assignment-form').reset()
     })
     .catch(error => {
       loading.style.display = 'none'
