@@ -17,34 +17,33 @@ NABLE_LINTERS: |
   JAVA_CHECKSTYLE
   JAVA_PMD
   JAVA_SPOTBUGS
-  
+
   # Gradle linter
   GROOVY_GRADLE_LINT
-  
+
   # HTML linter
   HTML_HTMLHINT
-  
+
   # CSS linter
   CSS_STYLELINT
-  
+
   # JavaScript linter
   JAVASCRIPT_ESLINT
-  
+
   # General linters
   SPELL_CSPELL
   MISC_EDITORCONFIG
   MISC_PRETTIER
-  
+
   # Duplicate code detector
   COPYPASTE_JSCPD
 
 # DISABLE:
-  # - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
-  # - SPELL # Uncomment to disable checks of spelling mistakes
+# - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
+# - SPELL # Uncomment to disable checks of spelling mistakes
 
 SHOW_ELAPSED_TIME: true
 
 FILEIO_REPORTER: false
-
 # Uncomment if you want MegaLinter to detect errors but not block CI to pass
 # DISABLE_ERRORS: true

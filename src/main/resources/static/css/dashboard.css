@@ -51,7 +51,7 @@ body {
 .card {
     background: white;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
     padding: 1.5rem;
 }
 
@@ -161,7 +161,7 @@ body {
     transition: background-color 0.3s ease-out;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }

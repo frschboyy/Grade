@@ -4,7 +4,6 @@ import com.gradingsystem.tesla.DTO.AssignmentDTO;
 import com.gradingsystem.tesla.DTO.EvaluationDetails;
 import com.gradingsystem.tesla.model.Assignment;
 import com.gradingsystem.tesla.service.AssignmentService;
-import com.gradingsystem.tesla.service.CohereGradingService;
 import com.gradingsystem.tesla.service.RetrieveEvaluationService;
 import com.gradingsystem.tesla.service.TextExtraction;
 import jakarta.servlet.http.HttpSession;

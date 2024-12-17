@@ -48,6 +48,7 @@ public class DashboardController {
         return "submitAssignmentPage";
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping("/evaluation-page")
     public String getEvaluationPage(Model model, HttpSession session) {
 

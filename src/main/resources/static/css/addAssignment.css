@@ -80,7 +80,7 @@ body {
 /* Input focus effect */
 .form-control:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgb(37 99 235 / 10%);
 }
 
 /* Textarea Styling */
@@ -168,21 +168,25 @@ input[type="file"] {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .main-content {
         padding: 1.5rem;
     }
+
     .form-group {
         margin-bottom: 1.25rem;
     }
+
     .form-control {
         font-size: 0.95rem;
     }
+
     .btn {
         padding: 0.75rem;
         font-size: 0.95rem;
