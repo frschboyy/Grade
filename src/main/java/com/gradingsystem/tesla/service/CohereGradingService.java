@@ -1,23 +1,24 @@
 package com.gradingsystem.tesla.service;
 
-import com.cohere.api.Cohere;
-import com.cohere.api.resources.v2.requests.V2ChatRequest;
-import com.cohere.api.types.ChatMessageV2;
-import com.cohere.api.types.ChatResponse;
-import com.cohere.api.types.UserMessageContent;
-import com.cohere.api.types.UserMessage;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jakarta.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.cohere.api.Cohere;
+import com.cohere.api.resources.v2.requests.V2ChatRequest;
+import com.cohere.api.types.ChatMessageV2;
+import com.cohere.api.types.ChatResponse;
+import com.cohere.api.types.UserMessage;
+import com.cohere.api.types.UserMessageContent;
+
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class CohereGradingService {
@@ -105,11 +106,12 @@ public class CohereGradingService {
             logger.debug("Student Answer: {}", studentAnswer);
             logger.debug("Rubric Answer: {}", rubricAnswer);
             String prompt = """
-                        On a scale of 1 to 10, how well does the student's answer align with the teacher's answer? Only respond with a score (e.g. 3/10).
-                        Question: %s
-                        Rubric's Answer: %s
-                        Student's Answer: %s
-                        """.formatted(question, rubricAnswer, studentAnswer);
+                On a scale of 1 to 10, how well does the student's answer align with the teacher's answer in terms of correctness and completeness? 
+                Focus on the core meaning of the answers, disregarding minor differences in wording or phrasing. Only respond with a score (e.g. 3/10).
+                Question: %s
+                Rubric's Answer: %s
+                Student's Answer: %s
+                """.formatted(question, rubricAnswer, studentAnswer);
 
             try {
                 String evaluation = callAIAPI(prompt); // Cohere API used here
