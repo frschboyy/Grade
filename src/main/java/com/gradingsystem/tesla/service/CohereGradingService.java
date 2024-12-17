@@ -2,7 +2,6 @@ package com.gradingsystem.tesla.service;
 
 import com.cohere.api.Cohere;
 import com.cohere.api.resources.v2.requests.V2ChatRequest;
-import com.cohere.api.types.AssistantMessageResponseContentItem;
 import com.cohere.api.types.ChatMessageV2;
 import com.cohere.api.types.ChatResponse;
 import com.cohere.api.types.UserMessageContent;
